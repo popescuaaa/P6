@@ -9,4 +9,6 @@ class EndpointWaker(Thread):
     def run(self):
         r = requests.get(self.endoint)
         data = r.json()
-        print('The server: {} from  {} is awake'.format(data['machine'], self.endoint.split('/')[-2]))
+        print('The server: {} from  {} is awake. First request time {}'.format(data['machine'], \
+                                                                               self.endoint.split('/')[-2], \
+                                                                               data['response_time']))

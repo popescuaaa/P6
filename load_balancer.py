@@ -44,6 +44,8 @@ class LoadBalancer():
             round_robin(self.endpoints, self.req_num)
         elif self.policy == POLICIES[1]:
             weigthed_round_robin(self.endpoints, self.req_num)
+        elif self.policy == POLICIES[2]:
+            least_connection(self.endpoints, self.req_num)
 
 if __name__ == "__main__":
     with open('config.yaml') as f:
