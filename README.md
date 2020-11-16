@@ -9,3 +9,9 @@ P6 stands for Policies 6 and it's a very basic load balancer that allows multipl
 3. Gather and analyze all the data from requests to calculate different stats for a better policy comparation
 
 
+# To do:
+- make code modular
+- adapt variable to config file to use less constant values in code
+- make plot and calculate desired stats
+- make a dockerimage
+- create performance report
