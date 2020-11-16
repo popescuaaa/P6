@@ -1,6 +1,6 @@
 import requests
 from math import exp, ceil
-from worker import Worker
+from worker import Worker, Master
 
 
 REQ_SCORE_TEST = 10
@@ -73,39 +73,16 @@ def weigthed_round_robin(endpoints, req_num):
     active connection load into consideration.
 
     In this case the ideea is to split the task among a number of len(endpoints) workers who will
-    perform requests each on specific endpoint and if there is one or even more faster than the others
-    they will be delegated will more work to free the other ones.
+    perform requests each on specific endpoint and because we consider in this load balacing technique 
+    that all the machines are equal we can simply rotate the batches of requests on a new set of workers.
+    Why is this least connection in essence ? As we consider the working of this algoriuthm is very simple
+    to show that if a thread starts at t with b requests and the others at t+i, i = 1, n-1, the server with t
+    will be probabilistically the first to finish and we can then we can manage them again.
 '''
 def least_connection(endpoints, req_num):
-    req_num_per_worker = int(ceil(req_num / len(endpoints)))
-    workers = []
-
-    for endpoint in endpoints:
-        if endpoint != endpoints[-1]:
-            w = Worker(endpoint, req_num_per_worker, endpoints.index(endpoint))
-        else:
-            w = Worker(endpoint, req_num - ((len(endpoints) - 1) * req_num_per_worker), endpoints.index(endpoint))
-        w.run()
-    
-    resolved_workers = 0
-    current_idx = len(workers)
-    while True:
-        if resolved_workers == len(workers):
-            return
-        for w in workers:
-            if w.get_staus:
-                w.join()
-                resolved_workers += 1
-            else:
-                workload = w.get_req_num()
-                new_workload = worload // 2
-                _w = Worker(w.endpoint, workload - new_workload, current_idx)
-                current_idx += 1
-                w.req_num_lock.release()
-                w.update_req_num(new_workload)
-                _w.run()
-
-                print('Worker {} delegate ~ 1/2 of the work to worker {}'.format(victim_idx, workers.index(w)))
+    master = Master(endpoints, req_num)
+    master.start()
+    master.join()
 
 def weghted_lest_connnection():
     pass

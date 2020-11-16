@@ -3,4 +3,4 @@ main_endpoint: 'work'
 port: 5000
 policy: 'least connection'
 hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
-req_num: 10000
+req_num: 100
