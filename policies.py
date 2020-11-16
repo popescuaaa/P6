@@ -1,7 +1,7 @@
 import requests
 from math import exp, ceil
-from worker import Worker, Master
-
+import least_connection_utils
+import weighted_least_connection_utils
 
 REQ_SCORE_TEST = 10
 DEFAULT_COUNTER = 0
@@ -17,30 +17,40 @@ def round_robin(endpoints, req_num):
         data = r.json()
         print('{} => {}'.format(data, r.elapsed))
 
-def gather_enpoints_score(endpoints):
+def gather_enpoints_score(endpoints, mean_times = False):
+    print('Calculating scores (and mean response time ~ latency) for each endpoint...')
     scores = {}
+    times = {}
     for endpoint in endpoints:
         score_values = []
+        times_values = []
+
         for i in range(REQ_SCORE_TEST):
             r = requests.get(endpoint)
             data = r.json()
-            print('{} => {}'.format(data, r.elapsed))
             score_values.append(float(data['response_time']) + float(data['work_time']))
+            times_values.append(float(data['response_time']))
+
         scores[endpoint] = score_values
+        times[endpoint] = times_values
+
     
-    # Mean and normalization
+    # Mean
     for e in scores:
-        max_value = sum(scores[e])
+        max_score = max(scores[e])
         scores[e] = sum(scores[e]) / REQ_SCORE_TEST
-        scores[e] = scores[e] / max_value
+        scores[e] = scores[e] / max_score
+        times[e] = sum(times[e]) / REQ_SCORE_TEST
 
     # Trasfer data trouch softmax for creating an array of sum 1
     scores_sum = sum([exp(scores[e]) for e in scores])
 
     for e in scores:
         scores[e] = exp(scores[e]) / scores_sum
-
-    return scores
+    if not mean_times:
+        return scores
+    else:
+        return scores, times
 
 '''
     Weighted Round Robin builds on the simple Round-robin load balancing algorithm to account 
@@ -80,15 +90,30 @@ def weigthed_round_robin(endpoints, req_num):
     will be probabilistically the first to finish and we can then we can manage them again.
 '''
 def least_connection(endpoints, req_num):
-    master = Master(endpoints, req_num)
+    master = least_connection_utils.Master(endpoints, req_num)
     master.start()
     master.join()
 
-def weghted_lest_connnection():
-    pass
+'''
+    Weighted Least Connection builds on the Least Connection load balancing algorithm to account for 
+    differing application server characteristics. The administrator assigns a weight to each application server 
+    based on criteria of their choosing to demonstrate the application servers traffic-handling capability.
+    The LoadMaster is making the load balancing criteria based on active connections and application server weighting.
+'''
+def weighted_lest_connnection(endpoints, req_num):
+    scores = gather_enpoints_score(endpoints)
+    master = weighted_least_connection_utils.Master(endpoints, req_num, scores)
+    master.start()
+    master.join()
 
-def fixed_weighting():
-    pass
+'''
+    Fixed Weighting is a load balancing algorithm where the administrator assigns a weight to each application server 
+    based on criteria of their choosing to demonstrate the application servers traffic-handling capability. 
+    The application server with the highest weigh will receive all of the traffic. If the application server with the 
+    highest weight fails, all traffic will be directed to the next highest weight application server.
+'''
+def fixed_weighting(endpoints, req_num):
+    scores, times = gather_enpoints_score()
 
 def randomized_static():
     pass
