@@ -2,9 +2,13 @@ import requests
 from math import exp, ceil
 import least_connection_utils
 import weighted_least_connection_utils
+from heapq import heappush, heappop
+import random
 
 REQ_SCORE_TEST = 10
 DEFAULT_COUNTER = 0
+
+EPS = 100
 
 '''
     This load balancing algorithm does not take into consideration the characteristics of the application 
@@ -111,9 +115,48 @@ def weighted_lest_connnection(endpoints, req_num):
     based on criteria of their choosing to demonstrate the application servers traffic-handling capability. 
     The application server with the highest weigh will receive all of the traffic. If the application server with the 
     highest weight fails, all traffic will be directed to the next highest weight application server.
+
+    If the last request has a response time bigger than the average with eps (set value) then go to next endpoint.
 '''
 def fixed_weighting(endpoints, req_num):
-    scores, times = gather_enpoints_score()
+    scores, times = gather_enpoints_score(endpoints, True)
+    registered_endpoints = []
+    for e in endpoints:
+        heappush(registered_endpoints, (scores[e], e))
+    
+    req_counter = 0
+    while True:
+        if req_counter < req_num:
+            score, current_endpoint = heappop(registered_endpoints)
 
-def randomized_static():
-    pass
+            while req_counter < req_num:
+                r = requests.get(current_endpoint)
+                data = r.json()
+                print('The server {} from {} solved a request'.format(data['machine'], current_endpoint.split('/')[-2]))
+            
+                if float(data['response_time']) > times[current_endpoint] + EPS:
+                    # Create cyclic behaviour in priority queue
+
+                    heappush(registered_endpoints, (score, current_endpoint))
+                    break
+
+                req_counter += 1
+        else:
+            break
+
+'''
+    Fixed Weighting is a load balancing algorithm where the administrator choose random an endpoint from 
+    the list at each step.
+'''
+def randomized_static(endpoints, req_num):
+    random.seed(42)
+    req_counter = 0
+    
+    while req_counter < req_num:
+        target = random.choice(endpoints)
+
+        r = requests.get(target)
+        data = r.json()
+        print('The server {} from {} solved a request'.format(data['machine'], target.split('/')[-2]))
+
+        req_counter += 1

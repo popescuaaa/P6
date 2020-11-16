@@ -1,6 +1,6 @@
 host: 'http://localhost'
 main_endpoint: 'work'
 port: 5000
-policy: 'weighted least connection'
+policy: 'randomized static'
 hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
 req_num: 100
