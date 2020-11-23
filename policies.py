@@ -7,7 +7,6 @@ import random
 
 REQ_SCORE_TEST = 10
 DEFAULT_COUNTER = 0
-
 EPS = 100
 
 '''

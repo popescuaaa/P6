@@ -3,6 +3,7 @@ import requests
 from time import sleep
 
 DEFAULT_NUMBER_OF_BATCHES = 10
+DEFAULT_SLEEP_TIME = 5
 
 class Master(Thread):
     def __init__(self, endpoints, req_num):
@@ -63,7 +64,7 @@ class Worker(Thread):
             
             self.master.delegate_new_work(self)
         else:
-            sleep(5)
+            sleep(DEFAAULT_SPEEP_TIME)
     def kill(self):
         print('Current worker: {} killed by master.'.format(self.idx))
         self.staus = 'killed'

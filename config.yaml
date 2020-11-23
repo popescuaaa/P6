@@ -1,6 +1,55 @@
-host: 'http://localhost'
-main_endpoint: 'work'
-port: 5000
-policy: 'randomized static'
-hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
-req_num: 100
+production_fixed_weighting:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'fixed weighting'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+
+production_weighted_least_connection:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'weighted least connection'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+
+production_least_connection:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'least connection'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+
+production_weighted_round_robin:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'weighted round robin'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+
+production_round_robin:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'round robin'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+
+production_randomized_static:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'randomized static'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+
+test_round_robin:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  policy: 'round robin'
+  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100

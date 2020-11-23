@@ -1,6 +1,5 @@
 from policies import *
 from endpoint_waker import EndpointWaker
-import yaml
 
 POLICIES = ['round robin', 'weighted round robin', 'least connection', 'weighted least connection', 'fixed weighting', 'randomized static']
 MAX_ARGUMENTS = 2
@@ -52,10 +51,3 @@ class LoadBalancer():
             fixed_weighting(self.endpoints, self.req_num)
         elif self.policy == POLICIES[5]:
             randomized_static(self.endpoints, self.req_num)
-if __name__ == "__main__":
-    with open('config.yaml') as f:
-        config = yaml.load(f, Loader=yaml.FullLoader)
-    
-    load_balancer = LoadBalancer(config)
-    load_balancer.run()
-    
