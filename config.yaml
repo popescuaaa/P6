@@ -1,3 +1,11 @@
+general_architecture:
+  host: 'http://localhost'
+  main_endpoint: 'work'
+  port: 5000
+  regions: { 'emea': 1, 'us': 2, 'asia': 2}
+  req_num: 100
+  epsilon: 100
+
 production_fixed_weighting:
   host: 'http://localhost'
   main_endpoint: 'work'
