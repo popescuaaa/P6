@@ -1,5 +1,6 @@
 import requests
 from endpoint_waker import EndpointWaker
+import timeit
 
 HOST = None
 PORT = None
@@ -101,11 +102,17 @@ def latency_per_region():
     for endpoint in endpoints:
         latencies = []
         for i in range(REQ_NUM):
+
+            start_time = timeit.default_timer()
+            
             r = requests.get(endpoint)
+
+            elapsed = timeit.default_timer() - start_time
+
             data = r.json()
             response_time = float(data['response_time'])
             work_time = float(data['work_time'])
-            latency = response_time + work_time
+            latency = response_time + work_time + elapsed
 
         mean_latency = sum(latencies) / REQ_NUM
         region = endpoint.split('/')[:-1]
@@ -148,7 +155,7 @@ def response_time_without_load():
     for endpoint in endpoints:
         response_times = []
         for i in range(REQ_NUM):
-            
+
             # Let sufficient time between calls
             if i % 10 == 0:
                 r = requests.get(endpoint)
@@ -163,6 +170,29 @@ def response_time_without_load():
     return response_time_without_load
 
 
+"""
+    This function will calculate the average elapsed time for a number
+    of requests for any region
+"""
 def forwarding_unit_latency_estiamation():
-    pass
+    print('Calculating forwarding unit latency per region')
 
+    endpoints = create_regional_endpoints()
+    forwarding_unit_latency_estiamation = {}
+
+    for endpoint in endpoints:
+        fw_latencies = []
+        for i in range(REQ_NUM):
+
+            start_time = timeit.default_timer()
+            r = requests.get(endpoint)
+            elapsed = timeit.default_timer() - start_time
+
+            fw_latency = elapsed
+
+        mean_fw_latency = sum(fw_latencies) / REQ_NUM
+        region = endpoint.split('/')[:-1]
+
+        forwarding_unit_latency_estiamation[region] = mean_fw_latency
+    
+    return forwarding_unit_latency_estiamation
