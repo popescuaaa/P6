@@ -1,7 +1,6 @@
 from load_balancer import LoadBalancer, POLICIES
 from tests import *
 import matplotlib.pyplot as pyplot
-
 import yaml
 
 if __name__ == "__main__":
@@ -20,7 +19,10 @@ if __name__ == "__main__":
     # 3
     work_time_per_region = work_time_per_region()
     # 4
-    
+    response_time_without_load = response_time_without_load()
+    #5
+    forwarding_unit_latency_estiamation = forwarding_unit_latency_estiamation()
 
+    
     # load_balancer = LoadBalancer(config)
     # load_balancer.run()
