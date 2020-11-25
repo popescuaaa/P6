@@ -61,10 +61,9 @@ class Worker(Thread):
                     r = requests.get(self.endpoint)
                     data = r.json()
                     print('The server {} from {} solved a request managed by worker number: {}'.format(data['machine'], self.endpoint.split('/')[-2], self.idx))
-            
             self.master.delegate_new_work(self)
         else:
-            sleep(DEFAAULT_SPEEP_TIME)
+            sleep(DEFAULT_SLEEP_TIME)
     def kill(self):
         print('Current worker: {} killed by master.'.format(self.idx))
         self.staus = 'killed'

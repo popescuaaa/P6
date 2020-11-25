@@ -72,7 +72,6 @@ class Worker(Thread):
                     r = requests.get(self.endpoint)
                     data = r.json()
                     print('The server {} from {} solved a request managed by worker number: {}'.format(data['machine'], self.endpoint.split('/')[-2], self.idx))
-            
             self.master.register_for_work(self)
             self.master.delegate_new_work()
         else:
