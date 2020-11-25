@@ -44,20 +44,12 @@ production_round_robin:
   port: 5000
   policy: 'round robin'
   hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
-  req_num: 100
+  req_nums: 100
 
 production_randomized_static:
   host: 'http://localhost'
   main_endpoint: 'work'
   port: 5000
   policy: 'randomized static'
-  hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
-  req_num: 100
-
-test_round_robin:
-  host: 'http://localhost'
-  main_endpoint: 'work'
-  port: 5000
-  policy: 'round robin'
   hosts_configuration: { 'emea': 1, 'us': 2, 'asia': 2}
   req_num: 100
