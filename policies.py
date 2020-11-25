@@ -18,7 +18,7 @@ def round_robin(endpoints, req_num):
     for i in range(req_num):
         r = requests.get(endpoints[i % len(endpoints)])
         data = r.json()
-        print('{} => {}'.format(data, r.elapsed))
+        print('Request resolved in: {}'.format(data['response_time']))
 
 def gather_enpoints_score(endpoints, mean_times = False):
     print('Calculating scores (and mean response time ~ latency) for each endpoint...')
@@ -38,11 +38,12 @@ def gather_enpoints_score(endpoints, mean_times = False):
         times[endpoint] = times_values
 
     
-    # Mean
+    # Mean and normalization
     for e in scores:
         max_score = max(scores[e])
         scores[e] = sum(scores[e]) / REQ_SCORE_TEST
         scores[e] = scores[e] / max_score
+
         times[e] = sum(times[e]) / REQ_SCORE_TEST
 
     # Trasfer data trouch softmax for creating an array of sum 1
@@ -74,7 +75,7 @@ def weigthed_round_robin(endpoints, req_num):
         for i in range(score):
             r = requests.get(endpoints[req_counter % len(endpoints)])
             data = r.json()
-            print('{} => {}'.format(data, r.elapsed))
+            print('Request resolved in: {}'.format(data['response_time']))
         req_counter += score
         endpoint_index += 1
 
@@ -124,6 +125,7 @@ def fixed_weighting(endpoints, req_num):
         heappush(registered_endpoints, (scores[e], e))
     
     req_counter = 0
+
     while True:
         if req_counter < req_num:
             score, current_endpoint = heappop(registered_endpoints)
@@ -132,7 +134,6 @@ def fixed_weighting(endpoints, req_num):
                 r = requests.get(current_endpoint)
                 data = r.json()
                 print('The server {} from {} solved a request'.format(data['machine'], current_endpoint.split('/')[-2]))
-            
                 if float(data['response_time']) > times[current_endpoint] + EPS:
                     # Create cyclic behaviour in priority queue
 
@@ -144,18 +145,17 @@ def fixed_weighting(endpoints, req_num):
             break
 
 '''
-    Fixed Weighting is a load balancing algorithm where the administrator choose random an endpoint from 
+    Randomized static is a load balancing algorithm where the administrator choose random an endpoint from 
     the list at each step.
 '''
 def randomized_static(endpoints, req_num):
     random.seed(42)
     req_counter = 0
-    
+
     while req_counter < req_num:
         target = random.choice(endpoints)
 
         r = requests.get(target)
         data = r.json()
         print('The server {} from {} solved a request'.format(data['machine'], target.split('/')[-2]))
-
         req_counter += 1
