@@ -235,6 +235,7 @@ def forwarding_unit_latency_estiamation(cfg):
             elapsed = timeit.default_timer() - start_time
 
             fw_latency = elapsed
+            fw_latencies.append(fw_latency)
 
         mean_fw_latency = sum(fw_latencies) / REQ_NUM
         region = endpoint.split('/')[-1]
