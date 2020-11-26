@@ -13,7 +13,7 @@ class LoadBalancer():
         self.policy = cfg['policy']
         self.hosts_configuration = cfg['hosts_configuration']
         self.req_num = cfg['req_num']
-        
+    
         self.endpoints = []
         # Configure the hosts
         for e in self.hosts_configuration:
@@ -21,7 +21,6 @@ class LoadBalancer():
                 endpoint = self.host + ':' + str(self.port) + '/' + self.main_endpoint + '/' + e + '/' + str(i)
                 self.endpoints.append(endpoint)
         
-        print(self.endpoints)
         if self.policy not in POLICIES:
             print('The policy is not supported. Try one of the following: {}'.format(POLICIES))
             return
