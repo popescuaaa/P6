@@ -1,0 +1,5 @@
+Endpoint: http://localhost:5000/work/emea/0 response time without load: 292.9
+Endpoint: http://localhost:5000/work/us/0 response time without load: 480.1
+Endpoint: http://localhost:5000/work/us/1 response time without load: 433.9
+Endpoint: http://localhost:5000/work/asia/0 response time without load: 536.9
+Endpoint: http://localhost:5000/work/asia/1 response time without load: 720.5
