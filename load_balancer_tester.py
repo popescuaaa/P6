@@ -30,37 +30,37 @@ if __name__ == "__main__":
             logfile.write('\n')
         logfile.close()
         # 2
-        # latency_per_region = latency_per_region(cfg)
-        # ga_lpr = 'ga_lpr.log'
-        # logfile = open(ga_lpr, "w")
-        # for r in latency_per_region:
-        #     logfile.write('Region: {} latency: {}'.format(r, latency_per_region[r]))
-        #     logfile.write('\n')
-        # logfile.close()
+        latency_per_region = latency_per_region(cfg)
+        ga_lpr = 'ga_lpr.log'
+        logfile = open(ga_lpr, "w")
+        for r in latency_per_region:
+            logfile.write('Region: {} latency: {}'.format(r, latency_per_region[r]))
+            logfile.write('\n')
+        logfile.close()
         # 3
-        # work_time_per_region = work_time_per_region(cfg)
-        # ga_wtpr = 'ga_wtpr.log'
-        # logfile = open(ga_wtpr, "w")
-        # for r in work_time_per_region:
-        #     logfile.write('Region: {} work time: {}'.format(r, work_time_per_region[r]))
-        #     logfile.write('\n')
-        # logfile.close()
+        work_time_per_region = work_time_per_region(cfg)
+        ga_wtpr = 'ga_wtpr.log'
+        logfile = open(ga_wtpr, "w")
+        for r in work_time_per_region:
+            logfile.write('Region: {} work time: {}'.format(r, work_time_per_region[r]))
+            logfile.write('\n')
+        logfile.close()
         # 4
-        # response_time_without_load = response_time_without_load(cfg)
-        # ga_rtwl = 'ga_rtwl.log'
-        # logfile = open(ga_rtwl, "w")
-        # for e in response_time_without_load:
-        #     logfile.write('Endpoint: {} response time without load: {}'.format(e, response_time_without_load[e]))
-        #     logfile.write('\n')
-        # logfile.close()
+        response_time_without_load = response_time_without_load(cfg)
+        ga_rtwl = 'ga_rtwl.log'
+        logfile = open(ga_rtwl, "w")
+        for e in response_time_without_load:
+            logfile.write('Endpoint: {} response time without load: {}'.format(e, response_time_without_load[e]))
+            logfile.write('\n')
+        logfile.close()
         #5
-        # forwarding_unit_latency_estiamation = forwarding_unit_latency_estiamation(cfg)
-        # ga_fwle = 'ga_fwle.log'
-        # logfile = open(ga_fwle, "w")
-        # for r in forwarding_unit_latency_estiamation:
-        #     logfile.write('Region: {} forward unit latency estimation: {}'.format(r, forwarding_unit_latency_estiamation[r]))
-        #     logfile.write('\n')
-        # logfile.close()
+        forwarding_unit_latency_estiamation = forwarding_unit_latency_estiamation(cfg)
+        ga_fwle = 'ga_fwle.log'
+        logfile = open(ga_fwle, "w")
+        for r in forwarding_unit_latency_estiamation:
+            logfile.write('Region: {} forward unit latency estimation: {}'.format(r, forwarding_unit_latency_estiamation[r]))
+            logfile.write('\n')
+        logfile.close()
 
     elif param == 'policies':
         """
