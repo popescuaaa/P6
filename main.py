@@ -26,7 +26,7 @@ if __name__ == "__main__":
                 if 0 <= _req_num < 100:
                     policy = 'round robin'
                 elif 100 <= _req_num < 500:
-                    policy = 'radomized static'
+                    policy = 'randomized static'
                 elif 500 <= _req_num < 1250:
                     policy = 'least connection'
                 elif 1250 <= _req_num < 2500:
@@ -53,7 +53,7 @@ if __name__ == "__main__":
             if 0 <= req_num < 100:
                 policy = 'round robin'
             elif 100 <= req_num < 500:
-                policy = 'radomized static'
+                policy = 'randomized static'
             elif 500 <= req_num < 1250:
                 policy = 'least connection'
             elif 1250 <= req_num < 2500:
