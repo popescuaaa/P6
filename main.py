@@ -33,7 +33,7 @@ if __name__ == "__main__":
                     policy = 'weighted least connection'
 
                 cfg = {
-                    'host': 'http://localhost',
+                    'host': 'http://host.docker.internal',
                     'main_endpoint': 'work',
                     'port': 5000,
                     'policy': policy,
@@ -60,7 +60,7 @@ if __name__ == "__main__":
                 policy = 'weighted least connection'
 
             cfg = {
-                'host': 'http://localhost',
+                'host': 'http://host.docker.internal',
                 'main_endpoint': 'work',
                 'port': 5000,
                 'policy': policy,
