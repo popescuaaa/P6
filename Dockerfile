@@ -1,5 +1,4 @@
 ARG BASE_IMAGE=python:3.6.12-alpine3.12
-ARG MAIN=main.py
 
 FROM ${BASE_IMAGE}
 
