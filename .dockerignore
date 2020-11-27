@@ -1,0 +1,15 @@
+# VS Code
+.vscode
+
+# Logs
+logs
+
+# Git
+.git
+
+# Other
+README.md
+LICENSE
+Dockerfile
+test.py
+*.pdf
