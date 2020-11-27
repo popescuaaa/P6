@@ -1,0 +1,2 @@
+docker build -t load_balancer:popescu_andrei .
+docker run -it -e REQUESTS=100 docker.io/library/load_balancer:popescu_andrei
